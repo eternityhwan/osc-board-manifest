@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: osc-board-frontend-ingress
+  namespace: frontend
+spec:
+  rules:
+    - host: osc-board-frontend.com # host에 등록을 해줘야 작동한다
+      http:
+        paths:
+          - backend:
+              service:
+                name: board-front-svc
+                port:
+                  number: 9090
+            path: /
+            pathType: Prefix
