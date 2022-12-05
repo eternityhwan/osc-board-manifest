@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: board-api-bluegreen
-          image: mirrorkyh/osc-board-front-java:blue
+          image: mirrorkyh/osc-board-api:blue
          #image: mirrorkyh/osc-board-front-java:green
           ports:
             - name: http
