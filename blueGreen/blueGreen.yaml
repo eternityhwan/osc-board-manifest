@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: board-api-bluegreen
-          image: mirrorkyh/osc-board-front-java:blue
-#          image: mirrorkyh/osc-board-front-java:green
+#          image: mirrorkyh/osc-board-front-java:blue
+          image: mirrorkyh/osc-board-front-java:green
           ports:
             - name: http
               containerPort: 8080
