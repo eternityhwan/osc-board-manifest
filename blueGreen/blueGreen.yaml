@@ -1,0 +1,57 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: board-api-bluegreen
+  namespace: api
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: board-api-bluegreen
+  template:
+    metadata:
+      labels:
+        app: board-api-bluegreen
+    spec:
+      containers:
+        - name: board-api-bluegreen
+          image: mirrorkyh/osc-board-front-java:blue
+         #image: mirrorkyh/osc-board-front-java:green
+          ports:
+            - name: http
+              containerPort: 8080
+  strategy:
+    blueGreen:
+      # blue 버전 서비스
+      activeService: rollout-bluegreen-active
+      # Green 버전 서비스
+      previewService: rollout-bluegreen-preview
+      #autoPromotioEnabled 옵션은 Blue/Green 배포를 자동으로 진행할 것인지 여부. false 옵션을 사용해 수동으로 지정
+      autoPromotionEnabled: false
+---
+# active가 blue 버전
+kind: Service
+apiVersion: v1
+metadata:
+  name: rollout-bluegreen-active
+spec:
+  selector:
+    app: rollout-bluegreen
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+# preview가 green 버전
+kind: Service
+apiVersion: v1
+metadata:
+  name: rollout-bluegreen-preview
+spec:
+  selector:
+    app: rollout-bluegreen
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
