@@ -37,7 +37,7 @@ metadata:
   name: rollout-bluegreen-active
 spec:
   selector:
-    app: rollout-bluegreen
+    app: board-front-bluegreen
   ports:
     - protocol: TCP
       port: 80
