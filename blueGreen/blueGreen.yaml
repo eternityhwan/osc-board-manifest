@@ -1,18 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: board-api-bluegreen
-  namespace: api
+  name: board-front-bluegreen
+  namespace: front
 spec:
   replicas: 1
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: board-api-bluegreen
+      app: board-front-bluegreen
   template:
     metadata:
       labels:
-        app: board-api-bluegreen
+        app: board-front-bluegreen
     spec:
       containers:
         - name: board-api-bluegreen
