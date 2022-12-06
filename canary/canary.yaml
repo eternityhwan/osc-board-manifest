@@ -3,7 +3,7 @@ kind: Rollout                    # Rollout으로 생성
 metadata:
   name: canary-rollout
 spec:
-  replicas: 30
+  replicas: 10
   revisionHistoryLimit: 2
   selector:
     matchLabels:
@@ -15,18 +15,20 @@ spec:
     spec:
       containers:
         - name: canary-rollouts-demo
-          image: mirrorkyh/osc-board-front-java:v1
+          image: nginx:1.15.4
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
   # 이 부분에서 카나리로 지정
   strategy:
-    canary:
+    canary:  # 롤아웃 전략을 무엇을 쓸지 여기서 정한다
       maxSurge: "25%"    # canary 배포로 생성할 pod의 비율
       maxUnavailable: 0  # 업데이트 될 때 사용할 수 없는 pod의 최대 수
       steps:
-        - setWeight: 25    # 카나리로 배포된 서버로 전송해야될 트래픽 비율
-        - pause: {}        # AutoPromotion Time (하단 설명 참조)
+        - setWeight: 10    # 카나리로 배포된 서버로 전송해야될 트래픽 비율
+        - pause:
+            duration: 1h  # 1시간 설정
+        - pause: {}
 ---
 kind: Service
 apiVersion: v1
